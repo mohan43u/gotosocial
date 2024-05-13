@@ -65,12 +65,12 @@ func (m *Module) indexHandler(c *gin.Context) {
 		Instance:    instance,
 		OGMeta:      apiutil.OGBase(instance),
 		Stylesheets: []string{cssAbout, cssIndex},
-		Extra:       map[string]any{
-			"showStrap": true,
+		Extra: map[string]any{
+			"showStrap":        true,
 			"showAboutSection": showAboutSection,
-			"showWhatIsThis": showWhatIsThis,
-			"showRegister": showRegister,
-			"showClientApps": showClientApps,
+			"showWhatIsThis":   showWhatIsThis,
+			"showRegister":     showRegister,
+			"showClientApps":   showClientApps,
 		},
 	}
 
