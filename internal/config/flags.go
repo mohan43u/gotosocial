@@ -34,6 +34,10 @@ func (s *ConfigState) AddGlobalFlags(cmd *cobra.Command) {
 		// General
 		cmd.PersistentFlags().String(ApplicationNameFlag(), cfg.ApplicationName, fieldtag("ApplicationName", "usage"))
 		cmd.PersistentFlags().String(LandingPageUserFlag(), cfg.LandingPageUser, fieldtag("LandingPageUser", "usage"))
+		cmd.PersistentFlags().Bool(DefaultIndexShowAboutSectionFlag(), cfg.DefaultIndexShowAboutSection, fieldtag("DefaultIndexShowAboutSection", "usage"))
+		cmd.PersistentFlags().Bool(DefaultIndexShowWhatIsThisFlag(), cfg.DefaultIndexShowWhatIsThis, fieldtag("DefaultIndexShowWhatIsThis", "usage"))
+		cmd.PersistentFlags().Bool(DefaultIndexShowRegisterFlag(), cfg.DefaultIndexShowRegister, fieldtag("DefaultIndexShowRegister", "usage"))
+		cmd.PersistentFlags().Bool(DefaultIndexShowClientAppsFlag(), cfg.DefaultIndexShowClientApps, fieldtag("DefaultIndexShowClientApps", "usage"))
 		cmd.PersistentFlags().String(HostFlag(), cfg.Host, fieldtag("Host", "usage"))
 		cmd.PersistentFlags().String(AccountDomainFlag(), cfg.AccountDomain, fieldtag("AccountDomain", "usage"))
 		cmd.PersistentFlags().String(ProtocolFlag(), cfg.Protocol, fieldtag("Protocol", "usage"))
