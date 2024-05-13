@@ -91,6 +91,10 @@ EXPECT=$(cat << "EOF"
     "db-tls-mode": "disable",
     "db-type": "sqlite",
     "db-user": "sex-haver",
+    "default-index-show-about-section": false,
+    "default-index-show-client-apps": false,
+    "default-index-show-register": false,
+    "default-index-show-what-is-this": false,
     "dry-run": true,
     "email": "",
     "host": "example.com",
@@ -303,6 +307,10 @@ GTS_ADVANCED_THROTTLING_MULTIPLIER=-1 \
 GTS_ADVANCED_THROTTLING_RETRY_AFTER='10s' \
 GTS_ADVANCED_HEADER_FILTER_MODE='block' \
 GTS_REQUEST_ID_HEADER='X-Trace-Id' \
+GTS_DEFAULT_INDEX_SHOW_ABOUT_SECTION=false \
+GTS_DEFAULT_INDEX_SHOW_WHAT_IS_THIS=false \
+GTS_DEFAULT_INDEX_SHOW_REGISTER=false \
+GTS_DEFAULT_INDEX_SHOW_CLIENT_APPS=false \
 go run ./cmd/gotosocial/... --config-path internal/config/testdata/test.yaml debug config)
 
 OUTPUT_OUT=$(mktemp)

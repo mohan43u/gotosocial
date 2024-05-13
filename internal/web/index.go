@@ -55,12 +55,23 @@ func (m *Module) indexHandler(c *gin.Context) {
 		return
 	}
 
+	showAboutSection := config.GetDefaultIndexShowAboutSection()
+	showWhatIsThis := config.GetDefaultIndexShowWhatIsThis()
+	showRegister := config.GetDefaultIndexShowRegister()
+	showClientApps := config.GetDefaultIndexShowClientApps()
+
 	page := apiutil.WebPage{
 		Template:    "index.tmpl",
 		Instance:    instance,
 		OGMeta:      apiutil.OGBase(instance),
 		Stylesheets: []string{cssAbout, cssIndex},
-		Extra:       map[string]any{"showStrap": true},
+		Extra:       map[string]any{
+			"showStrap": true,
+			"showAboutSection": showAboutSection,
+			"showWhatIsThis": showWhatIsThis,
+			"showRegister": showRegister,
+			"showClientApps": showClientApps,
+		},
 	}
 
 	apiutil.TemplateWebPage(c, page)

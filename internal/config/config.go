@@ -51,6 +51,10 @@ type Configuration struct {
 	LogClientIP        bool     `name:"log-client-ip" usage:"Include the client IP in logs"`
 	ApplicationName    string   `name:"application-name" usage:"Name of the application, used in various places internally"`
 	LandingPageUser    string   `name:"landing-page-user" usage:"the user that should be shown on the instance's landing page"`
+        DefaultIndexShowAboutSection    bool   `name:"default-index-show-about-section" usage:"show about section in default index.html"`
+        DefaultIndexShowWhatIsThis      bool   `name:"default-index-show-what-is-this" usage:"show what is this in default index.html"`
+        DefaultIndexShowRegister        bool   `name:"default-index-show-register" usage:"show register section in default index.html"`
+        DefaultIndexShowClientApps      bool   `name:"default-index-show-client-apps" usage:"show client apps in default index.html"`
 	ConfigPath         string   `name:"config-path" usage:"Path to a file containing gotosocial configuration. Values set in this file will be overwritten by values set as env vars or arguments"`
 	Host               string   `name:"host" usage:"Hostname to use for the server (eg., example.org, gotosocial.whatever.com). DO NOT change this on a server that's already run!"`
 	AccountDomain      string   `name:"account-domain" usage:"Domain to use in account names (eg., example.org, whatever.com). If not set, will default to the setting for host. DO NOT change this on a server that's already run!"`

@@ -81,6 +81,10 @@ func testDefaults() config.Configuration {
 		DbSqliteSynchronous:      "NORMAL",
 		DbSqliteCacheSize:        8 * bytesize.MiB,
 		DbSqliteBusyTimeout:      time.Minute * 5,
+		DefaultIndexShowAboutSection:   true,
+		DefaultIndexShowRegister:       true,
+		DefaultIndexShowWhatIsThis:     true,
+		DefaultIndexShowClientApps:     true,
 
 		WebTemplateBaseDir: "./web/template/",
 		WebAssetBaseDir:    "./web/assets/",

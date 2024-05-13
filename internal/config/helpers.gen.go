@@ -2,7 +2,7 @@
 // GoToSocial
 // Copyright (C) GoToSocial Authors admin@gotosocial.org
 // SPDX-License-Identifier: AGPL-3.0-or-later
-//
+// 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -174,6 +174,106 @@ func GetLandingPageUser() string { return global.GetLandingPageUser() }
 
 // SetLandingPageUser safely sets the value for global configuration 'LandingPageUser' field
 func SetLandingPageUser(v string) { global.SetLandingPageUser(v) }
+
+// GetDefaultIndexShowAboutSection safely fetches the Configuration value for state's 'DefaultIndexShowAboutSection' field
+func (st *ConfigState) GetDefaultIndexShowAboutSection() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowAboutSection
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowAboutSection safely sets the Configuration value for state's 'DefaultIndexShowAboutSection' field
+func (st *ConfigState) SetDefaultIndexShowAboutSection(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowAboutSection = v
+	st.reloadToViper()
+}
+
+// DefaultIndexShowAboutSectionFlag returns the flag name for the 'DefaultIndexShowAboutSection' field
+func DefaultIndexShowAboutSectionFlag() string { return "default-index-show-about-section" }
+
+// GetDefaultIndexShowAboutSection safely fetches the value for global configuration 'DefaultIndexShowAboutSection' field
+func GetDefaultIndexShowAboutSection() bool { return global.GetDefaultIndexShowAboutSection() }
+
+// SetDefaultIndexShowAboutSection safely sets the value for global configuration 'DefaultIndexShowAboutSection' field
+func SetDefaultIndexShowAboutSection(v bool) { global.SetDefaultIndexShowAboutSection(v) }
+
+// GetDefaultIndexShowWhatIsThis safely fetches the Configuration value for state's 'DefaultIndexShowWhatIsThis' field
+func (st *ConfigState) GetDefaultIndexShowWhatIsThis() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowWhatIsThis
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowWhatIsThis safely sets the Configuration value for state's 'DefaultIndexShowWhatIsThis' field
+func (st *ConfigState) SetDefaultIndexShowWhatIsThis(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowWhatIsThis = v
+	st.reloadToViper()
+}
+
+// DefaultIndexShowWhatIsThisFlag returns the flag name for the 'DefaultIndexShowWhatIsThis' field
+func DefaultIndexShowWhatIsThisFlag() string { return "default-index-show-what-is-this" }
+
+// GetDefaultIndexShowWhatIsThis safely fetches the value for global configuration 'DefaultIndexShowWhatIsThis' field
+func GetDefaultIndexShowWhatIsThis() bool { return global.GetDefaultIndexShowWhatIsThis() }
+
+// SetDefaultIndexShowWhatIsThis safely sets the value for global configuration 'DefaultIndexShowWhatIsThis' field
+func SetDefaultIndexShowWhatIsThis(v bool) { global.SetDefaultIndexShowWhatIsThis(v) }
+
+// GetDefaultIndexShowRegister safely fetches the Configuration value for state's 'DefaultIndexShowRegister' field
+func (st *ConfigState) GetDefaultIndexShowRegister() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowRegister
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowRegister safely sets the Configuration value for state's 'DefaultIndexShowRegister' field
+func (st *ConfigState) SetDefaultIndexShowRegister(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowRegister = v
+	st.reloadToViper()
+}
+
+// DefaultIndexShowRegisterFlag returns the flag name for the 'DefaultIndexShowRegister' field
+func DefaultIndexShowRegisterFlag() string { return "default-index-show-register" }
+
+// GetDefaultIndexShowRegister safely fetches the value for global configuration 'DefaultIndexShowRegister' field
+func GetDefaultIndexShowRegister() bool { return global.GetDefaultIndexShowRegister() }
+
+// SetDefaultIndexShowRegister safely sets the value for global configuration 'DefaultIndexShowRegister' field
+func SetDefaultIndexShowRegister(v bool) { global.SetDefaultIndexShowRegister(v) }
+
+// GetDefaultIndexShowClientApps safely fetches the Configuration value for state's 'DefaultIndexShowClientApps' field
+func (st *ConfigState) GetDefaultIndexShowClientApps() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowClientApps
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowClientApps safely sets the Configuration value for state's 'DefaultIndexShowClientApps' field
+func (st *ConfigState) SetDefaultIndexShowClientApps(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowClientApps = v
+	st.reloadToViper()
+}
+
+// DefaultIndexShowClientAppsFlag returns the flag name for the 'DefaultIndexShowClientApps' field
+func DefaultIndexShowClientAppsFlag() string { return "default-index-show-client-apps" }
+
+// GetDefaultIndexShowClientApps safely fetches the value for global configuration 'DefaultIndexShowClientApps' field
+func GetDefaultIndexShowClientApps() bool { return global.GetDefaultIndexShowClientApps() }
+
+// SetDefaultIndexShowClientApps safely sets the value for global configuration 'DefaultIndexShowClientApps' field
+func SetDefaultIndexShowClientApps(v bool) { global.SetDefaultIndexShowClientApps(v) }
 
 // GetConfigPath safely fetches the Configuration value for state's 'ConfigPath' field
 func (st *ConfigState) GetConfigPath() (v string) {
@@ -4355,3 +4455,4 @@ func GetRequestIDHeader() string { return global.GetRequestIDHeader() }
 
 // SetRequestIDHeader safely sets the value for global configuration 'RequestIDHeader' field
 func SetRequestIDHeader(v string) { global.SetRequestIDHeader(v) }
+
