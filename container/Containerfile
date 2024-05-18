@@ -1,7 +1,14 @@
 # syntax=docker/dockerfile:1.3
 # Dockerfile reference: https://docs.docker.com/engine/reference/builder/
 
-# stage 1: generate up-to-date swagger.yaml to put in the final container
+# stage 1: build gotosocial
+FROM --platform=${TARGETPLATFORM} docker.io/golang:1.22-alpine AS builder
+RUN --mount=type=bind,target=/gotosocial-git,rw=true \
+    apk update --no-cache && apk add git && \
+    cd /gotosocial-git && ./scripts/build.sh && \
+    cp ./gotosocial /gotosocial
+
+# stage 2: generate up-to-date swagger.yaml to put in the final container
 FROM --platform=${BUILDPLATFORM} docker.io/golang:1.22-alpine AS swagger
 
 RUN \
@@ -18,7 +25,7 @@ COPY internal /go/src/github.com/superseriousbusiness/gotosocial/internal
 WORKDIR /go/src/github.com/superseriousbusiness/gotosocial
 RUN /go/bin/swagger generate spec -o /go/src/github.com/superseriousbusiness/gotosocial/swagger.yaml --scan-models
 
-# stage 2: generate the web/assets/dist bundles
+# stage 3: generate the web/assets/dist bundles
 FROM --platform=${BUILDPLATFORM} docker.io/node:18-alpine AS bundler
 
 COPY web web
@@ -26,12 +33,6 @@ RUN yarn --cwd ./web/source install && \
     yarn --cwd ./web/source ts-patch install && \
     yarn --cwd ./web/source build   && \
     rm -rf ./web/source
-
-# stage 3: build gotosocial
-FROM --platform=${BUILDPLATFORM} docker.io/golang:1.22-alpine AS build
-RUN --mount=type=bind,target=/gotosocial,rw=true \
-    apk update --no-cache && apk add git && \
-    cd /gotosocial && ./scripts/build.sh
 
 # stage 4: build the executor container
 FROM --platform=${TARGETPLATFORM} docker.io/alpine:3.19.1 AS executor
@@ -51,7 +52,7 @@ WORKDIR "/gotosocial/storage"
 WORKDIR "/gotosocial"
 
 # copy the dist binary created by goreleaser or build.sh
-COPY --chown=1000:1000 gotosocial /gotosocial/gotosocial
+COPY --chown=1000:1000 --from=builder /gotosocial /gotosocial/gotosocial
 
 # copy over the web directories with templates, assets etc
 COPY --chown=1000:1000 --from=bundler web /gotosocial/web
