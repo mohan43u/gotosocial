@@ -4,8 +4,9 @@
 # stage 1: build gotosocial
 FROM --platform=${TARGETPLATFORM} docker.io/golang:1.22-alpine AS builder
 RUN --mount=type=bind,target=/gotosocial-git,rw=true \
-    apk update --no-cache && apk add git && \
-    cd /gotosocial-git && ./scripts/build.sh && \
+    apk add --no-cache git && \
+    cd /gotosocial-git && \
+    ./scripts/build.sh && \
     cp ./gotosocial /gotosocial
 
 # stage 2: generate up-to-date swagger.yaml to put in the final container
