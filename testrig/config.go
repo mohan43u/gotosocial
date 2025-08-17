@@ -196,6 +196,11 @@ func testDefaults() config.Configuration {
 		// simply use cache defaults.
 		Cache: config.Defaults.Cache,
 
+		// default index options
+		DefaultIndexShowAboutSection:   true,
+		DefaultIndexShowRegister:       true,
+		DefaultIndexShowWhatIsThis:     true,
+
 		// Testrig-specific flags.
 		TestrigSkipDBSetup:    envBool("GTS_TESTRIG_SKIP_DB_SETUP", false),
 		TestrigSkipDBTeardown: envBool("GTS_TESTRIG_SKIP_DB_TEARDOWN", false),

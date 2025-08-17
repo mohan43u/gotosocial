@@ -1,0 +1,32 @@
+networks:
+  gotosocial:
+    name: gotosocial
+
+services:
+  gotosocial:
+    container_name: gotosocial
+    image: gotosocial:latest
+    networks:
+      - gotosocial
+    environment:
+      GTS_HOST: fediverse.mohan43u.space
+      GTS_PORT: 4443
+      GTS_TRUSTED_PROXIES: 10.89.1.0/24
+      GTS_ADVANCED_RATE_LIMIT_EXCEPTIONS: 10.89.1.0/24
+      GTS_DB_TYPE: sqlite
+      GTS_DB_ADDRESS: /db/sqlite.db
+      GTS_WAZERO_COMPILATION_CACHE: /wacache
+      GTS_STORAGE_LOCAL_BASE_PATH: /storage
+      GTS_ACCOUNTS_REGISTRATION_OPEN: false
+      GTS_DEFAULT_INDEX_SHOW_WHAT_IS_THIS: false
+      GTS_DEFAULT_INDEX_SHOW_REGISTER: false
+    volumes:
+      - ./data/db:/db
+      - ./data/storage:/storage
+      - ./data/wacache:/wacache
+    restart: unless-stopped
+    build:
+      context: ../
+      dockerfile: container/Containerfile
+      tags:
+        - gotosocial

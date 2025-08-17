@@ -55,6 +55,10 @@ func (m *Module) indexHandler(c *gin.Context) {
 		return
 	}
 
+	showAboutSection := config.GetDefaultIndexShowAboutSection()
+	showWhatIsThis := config.GetDefaultIndexShowWhatIsThis()
+	showRegister := config.GetDefaultIndexShowRegister()
+
 	page := apiutil.WebPage{
 		Template:    "index.tmpl",
 		Instance:    instance,
@@ -67,6 +71,9 @@ func (m *Module) indexHandler(c *gin.Context) {
 			// Show "log in" button
 			// in top-right corner.
 			"showLoginButton": true,
+			"showAboutSection": showAboutSection,
+			"showWhatIsThis": showWhatIsThis,
+			"showRegister": showRegister,
 		},
 	}
 

@@ -38,6 +38,9 @@ const (
 	ConfigPathFlag                                 = "config-path"
 	ApplicationNameFlag                            = "application-name"
 	LandingPageUserFlag                            = "landing-page-user"
+	DefaultIndexShowAboutSectionFlag               = "default-index-show-about-section"
+	DefaultIndexShowWhatIsThisFlag                 = "default-index-show-what-is-this"
+	DefaultIndexShowRegisterFlag                   = "default-index-show-register"
 	HostFlag                                       = "host"
 	AccountDomainFlag                              = "account-domain"
 	ProtocolFlag                                   = "protocol"
@@ -238,6 +241,9 @@ func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
 	flags.String("config-path", cfg.ConfigPath, "Path to a file containing gotosocial configuration. Values set in this file will be overwritten by values set as env vars or arguments")
 	flags.String("application-name", cfg.ApplicationName, "Name of the application, used in various places internally")
 	flags.String("landing-page-user", cfg.LandingPageUser, "the user that should be shown on the instance's landing page")
+	flags.Bool("default-index-show-about-section", cfg.DefaultIndexShowAboutSection, "show about section in default index.html")
+	flags.Bool("default-index-show-what-is-this", cfg.DefaultIndexShowWhatIsThis, "show what is this in default index.html")
+	flags.Bool("default-index-show-register", cfg.DefaultIndexShowRegister, "show register section in default index.html")
 	flags.String("host", cfg.Host, "Hostname to use for the server (eg., example.org, gotosocial.whatever.com). DO NOT change this on a server that's already run!")
 	flags.String("account-domain", cfg.AccountDomain, "Domain to use in account names (eg., example.org, whatever.com). If not set, will default to the setting for host. DO NOT change this on a server that's already run!")
 	flags.String("protocol", cfg.Protocol, "Protocol to use for the REST api of the server (only use http if you are debugging; https should be used even if running behind a reverse proxy!)")
@@ -420,7 +426,7 @@ func (cfg *Configuration) RegisterFlags(flags *pflag.FlagSet) {
 }
 
 func (cfg *Configuration) MarshalMap() map[string]any {
-	cfgmap := make(map[string]any, 197)
+	cfgmap := make(map[string]any, 201)
 	cfgmap["log-level"] = cfg.LogLevel
 	cfgmap["log-format"] = cfg.LogFormat
 	cfgmap["log-timestamp-format"] = cfg.LogTimestampFormat
@@ -430,6 +436,9 @@ func (cfg *Configuration) MarshalMap() map[string]any {
 	cfgmap["config-path"] = cfg.ConfigPath
 	cfgmap["application-name"] = cfg.ApplicationName
 	cfgmap["landing-page-user"] = cfg.LandingPageUser
+	cfgmap["default-index-show-about-section"] = cfg.DefaultIndexShowAboutSection
+	cfgmap["default-index-show-what-is-this"] = cfg.DefaultIndexShowWhatIsThis
+	cfgmap["default-index-show-register"] = cfg.DefaultIndexShowRegister
 	cfgmap["host"] = cfg.Host
 	cfgmap["account-domain"] = cfg.AccountDomain
 	cfgmap["protocol"] = cfg.Protocol
@@ -696,6 +705,30 @@ func (cfg *Configuration) UnmarshalMap(cfgmap map[string]any) error {
 		cfg.LandingPageUser, err = cast.ToStringE(ival)
 		if err != nil {
 			return fmt.Errorf("error casting %#v -> string for 'landing-page-user': %w", ival, err)
+		}
+	}
+
+	if ival, ok := cfgmap["default-index-show-about-section"]; ok {
+		var err error
+		cfg.DefaultIndexShowAboutSection, err = cast.ToBoolE(ival)
+		if err != nil {
+			return fmt.Errorf("error casting %#v -> bool for 'default-index-show-about-section': %w", ival, err)
+		}
+	}
+
+	if ival, ok := cfgmap["default-index-show-what-is-this"]; ok {
+		var err error
+		cfg.DefaultIndexShowWhatIsThis, err = cast.ToBoolE(ival)
+		if err != nil {
+			return fmt.Errorf("error casting %#v -> bool for 'default-index-show-what-is-this': %w", ival, err)
+		}
+	}
+
+	if ival, ok := cfgmap["default-index-show-register"]; ok {
+		var err error
+		cfg.DefaultIndexShowRegister, err = cast.ToBoolE(ival)
+		if err != nil {
+			return fmt.Errorf("error casting %#v -> bool for 'default-index-show-register': %w", ival, err)
 		}
 	}
 
@@ -2437,6 +2470,72 @@ func GetLandingPageUser() string { return global.GetLandingPageUser() }
 
 // SetLandingPageUser safely sets the value for global configuration 'LandingPageUser' field
 func SetLandingPageUser(v string) { global.SetLandingPageUser(v) }
+
+// GetDefaultIndexShowAboutSection safely fetches the Configuration value for state's 'DefaultIndexShowAboutSection' field
+func (st *ConfigState) GetDefaultIndexShowAboutSection() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowAboutSection
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowAboutSection safely sets the Configuration value for state's 'DefaultIndexShowAboutSection' field
+func (st *ConfigState) SetDefaultIndexShowAboutSection(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowAboutSection = v
+	st.reloadToViper()
+}
+
+// GetDefaultIndexShowAboutSection safely fetches the value for global configuration 'DefaultIndexShowAboutSection' field
+func GetDefaultIndexShowAboutSection() bool { return global.GetDefaultIndexShowAboutSection() }
+
+// SetDefaultIndexShowAboutSection safely sets the value for global configuration 'DefaultIndexShowAboutSection' field
+func SetDefaultIndexShowAboutSection(v bool) { global.SetDefaultIndexShowAboutSection(v) }
+
+// GetDefaultIndexShowWhatIsThis safely fetches the Configuration value for state's 'DefaultIndexShowWhatIsThis' field
+func (st *ConfigState) GetDefaultIndexShowWhatIsThis() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowWhatIsThis
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowWhatIsThis safely sets the Configuration value for state's 'DefaultIndexShowWhatIsThis' field
+func (st *ConfigState) SetDefaultIndexShowWhatIsThis(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowWhatIsThis = v
+	st.reloadToViper()
+}
+
+// GetDefaultIndexShowWhatIsThis safely fetches the value for global configuration 'DefaultIndexShowWhatIsThis' field
+func GetDefaultIndexShowWhatIsThis() bool { return global.GetDefaultIndexShowWhatIsThis() }
+
+// SetDefaultIndexShowWhatIsThis safely sets the value for global configuration 'DefaultIndexShowWhatIsThis' field
+func SetDefaultIndexShowWhatIsThis(v bool) { global.SetDefaultIndexShowWhatIsThis(v) }
+
+// GetDefaultIndexShowRegister safely fetches the Configuration value for state's 'DefaultIndexShowRegister' field
+func (st *ConfigState) GetDefaultIndexShowRegister() (v bool) {
+	st.mutex.RLock()
+	v = st.config.DefaultIndexShowRegister
+	st.mutex.RUnlock()
+	return
+}
+
+// SetDefaultIndexShowRegister safely sets the Configuration value for state's 'DefaultIndexShowRegister' field
+func (st *ConfigState) SetDefaultIndexShowRegister(v bool) {
+	st.mutex.Lock()
+	defer st.mutex.Unlock()
+	st.config.DefaultIndexShowRegister = v
+	st.reloadToViper()
+}
+
+// GetDefaultIndexShowRegister safely fetches the value for global configuration 'DefaultIndexShowRegister' field
+func GetDefaultIndexShowRegister() bool { return global.GetDefaultIndexShowRegister() }
+
+// SetDefaultIndexShowRegister safely sets the value for global configuration 'DefaultIndexShowRegister' field
+func SetDefaultIndexShowRegister(v bool) { global.SetDefaultIndexShowRegister(v) }
 
 // GetHost safely fetches the Configuration value for state's 'Host' field
 func (st *ConfigState) GetHost() (v string) {
